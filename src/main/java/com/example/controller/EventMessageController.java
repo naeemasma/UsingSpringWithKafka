@@ -23,7 +23,12 @@ public class EventMessageController {
     }
             
     @PostMapping(path = "/send/message/{event}")
-	public void sendEventMessage(@PathVariable String event) {
-		this.eventProducer.sendEventMessage(topicToPublish, event);
+	public String sendEventMessage(@PathVariable String event) {
+    	try{
+    		this.eventProducer.sendEventMessage(topicToPublish, event);
+		}catch(Exception e) {
+			return "Failed sending message: " + e.getMessage();
+		}
+		return "Message sent successfully";
 	}
 }
